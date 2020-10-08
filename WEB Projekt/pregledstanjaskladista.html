@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="hr">
+<head>
+	<meta charset="UTF-8">	
+	<title>Administracija građevinskog materijala</title>
+	<link rel="stylesheet" href="assets/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+	<script type="text/javascript" src="assets/plugins/jquery/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-firestore.js"></script>
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+			<ul class="nav navbar-stacked">
+				<a href="index.html" alt="Admin logo"><li><img id="img" src="img/icon1.png"></li></a>
+				<li>
+					<div id="materijal-btns">
+						<button id="add" onclick="window.location.href='pregledstanjaskladista.html'" class="btn btn-info" data-toggle="modal">
+							<span class="glyphicon glyphicon-eye-open"></span>
+						</button>
+						<label for="info">Pregled stanja skladišta </label>
+					</div>
+				</li>
+				<li>
+					<div id="materijal-btns">
+						<button id="add" class="btn btn-success" data-toggle="modal" data-target="#dodaj-materijal">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+						<label for="add">Dodaj novi materijal</label>
+					</div>
+				</li>
+				<li>
+					<div id="materijal-btns">
+						<button id="add" class="btn btn-success" data-toggle="modal" data-target="#dodaj-kategoriju">
+							<span class="glyphicon glyphicon glyphicon-arrow-up"></span>
+						</button>
+						<label for="add">Dodaj novu kategoriju</label>
+					</div>
+				</li>
+				<li>
+					<div id="materijal-btns">
+						<button id="add" onclick="window.location.href='aktivnost.html'" class="btn btn-info" data-toggle="modal">
+							<span class="glyphicon glyphicon-list-alt"></span>
+						</button>
+						<label for="info">Pregled aktivnosti korisnika </label>
+					</div>
+				</li>
+				<li>
+					<div id="materijal-btns">
+						<button onclick="logout()" id="odjava" class="btn btn-info">
+							<span class="glyphicon glyphicon-log-out"></span>
+						</button>
+						<label for="odjava">Odjava</label>
+					</div>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<div class="container-fluid pregledstanja">
+			<header>
+			</header>
+			<div class="vijesti-container" style="margin-top: 130px">
+				<div id="tablica-container">
+					<table id="TablicaStanja" class="table table-striped">
+						<thead>
+							<tr>
+								<h1>Pregled stanja skladišta</h1>
+								<h1></h1>
+								<td><b>R.br</b></td>
+								<td><b>Šifra</b></td>
+								<td><b>Naziv</b></td>
+								<td><b>Kategorija</b></td>
+								<td><b>Trenutno stanje</b></td>
+								<td><b>Brisanje</b></td>
+								<td><b>Ažuriranje</b></td>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- modal -->
+	<div class="modal fade" id="dodaj-materijal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" datadismiss="modal"></button>
+					<h4 class="modal-title">Dodaj materijal</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="inptNazivMaterijala">Naziv materijala</label>
+						<input type="text" class="form-control" id="inptNazivMaterijala">
+					</div>
+					<div class="form-group">
+						<label for="inptStanjevMaterijala">Količina <small style="color:red">*Unesite i mjernu jedinicu kg/kom  npr: 2 kom</small></label>
+						<input type="text" class="form-control" id="inptStanjevMaterijala">
+					</div>
+					<div class="form-group">
+						<label>Kategorija</label>
+						<select class="form-control" id="KategorijaDropdown">
+						</select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button onclick="DodajMaterijal()" type="button" class="btn btn-success">Dodaj</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Odustani</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal -->
+	<div class="modal fade" id="modal-brisanje" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" datadismiss="modal"></button>
+					<h4 class="modal-title">Jeste li sigurni da želite obrisati?</h4>
+				</div>				
+				<div class="modal-footer">
+					<button onclick="DodajMaterijal()" type="button" class="btn btn-success">Dodaj</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Odustani</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--modal-->
+	<div class="modal fade" id="azuriraj-materijal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"></button>
+					<h4 class="modal-title">Ažuriraj materijal</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="inptNazivMaterijalaEdit">Naziv materijala</label>
+						<input type="text" class="form-control" id="inptNazivMaterijalaEdit" />
+					</div>
+					<div class="form-group">
+						<label for="inptSifraMaterijalaEdit">Sifra materijala</label>
+						<input disabled class="form-control" id="inptSifraMaterijalaEdit" />
+					</div>
+					<div class="form-group">
+						<label for="txtTrenutnoStanjeEdit">Trenutno stanje <small style="color:red">*Unesite i mjernu jedinicu kg/kom  npr: 2 kom</small></label>
+						<input class="form-control" id="txtTrenutnoStanjeEdit">
+					</div>
+					<div class="form-group">
+						<label>Kategorija <small style="color:red">*Obavezno odaberite kategoriju</small></label>
+						<select class="form-control" id="KategorijaDropdownEdit">
+						</select>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button onclick="ModalAzurirajMaterijal()" id="btnEdit" type="button" class="btn btn-success" data-dismiss="modal">Ažuriraj</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Odustani</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--modal-->
+	<div class="modal fade" id="dodaj-kategoriju" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" datadismiss="modal"></button>
+					<h4 class="modal-title">Dodaj kategoriju</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="inptNazivKategorije">Naziv kategorije</label>
+						<input type="text" class="form-control" id="inptNazivKategorije">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button onclick="DodajKategoriju()" type="button" class="btn btn-success" data-dismiss="modal">Dodaj</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Odustani</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="assets/plugins/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<script src="js/firebase-config.js"></script>
+	<script src="js/administracija.js"></script>
+	<script src="js/Login.js"></script>
+</body>
+</html>

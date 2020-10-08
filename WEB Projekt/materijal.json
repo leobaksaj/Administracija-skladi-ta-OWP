@@ -1,0 +1,85 @@
+{
+	"Materijal":{
+		"1":
+		{
+			"kategorija": 1,
+			"sifra" : 101,
+			"naziv" : "Opeka Leiertherm 4.6",
+			"trenutno_stanje": 589
+		},
+		"2":
+		{
+			"kategorija": 2,
+			"sifra" : 201,
+			"naziv" : "Gips ploča A 13",
+			"trenutno_stanje" : 25
+		},
+		"3":
+		{
+			"kategorija": 3,
+			"sifra" : 301,
+			"naziv" : "Fleksibilno ljepilo za pločice",
+			"trenutno_stanje": 189
+		},
+		"4":
+		{
+			"kategorija": 4,
+			"sifra" : 401,
+			"naziv" : "Stiropor ploča EPS 100",
+		   	"trenutno_stanje": 205
+		},
+		"5":
+		{
+			"kategorija": 5,
+			"sifra" : 501,
+			"naziv" : "Bitumenska ploča K 11",
+			"trenutno_stanje": 150
+		},
+		"6":
+		{
+			"kategorija": 6,
+			"sifra" : 601,
+			"naziv" : "KGEM odvodna cijev",
+			"trenutno_stanje": 351
+		}
+	},
+	
+		"Kategorija":{
+			"1":
+			{
+				"naziv" : "Materijal za gradnju"
+			},
+			"2":
+			{
+				"naziv" : "Suha gradnja"
+			},
+			"3":
+			{
+				"naziv" : "Građevinska kemija"
+			},
+			"4":
+			{
+				"naziv" : "Izolacijski materijal"
+			},
+			"5":
+			{
+				"naziv" : "Pokrovni materijal"
+			},
+			"6":
+			{
+				"naziv" : "Oprema za drenažu"
+			}
+		},	
+	
+		"Administratori":
+		{
+			"1":
+			{
+				"ime" : "Leo",
+				"prezime" : "Bakšaj",
+				"username" : "leo.baksaj",
+				"password" : "4444"
+			}
+		}
+
+}
